@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria Alternativa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --black-light: #1a1a1a;
+            --black-card: #141414;
+            --orange: #ff6b00;
+            --orange-light: #ff8533;
+            --orange-dark: #e55a00;
+            --orange-glow: rgba(255, 107, 0, 0.3);
+            --white: #ffffff;
+            --gray: #888888;
+            --gray-dark: #333333;
+            --gray-light: #e0e0e0;
+            --green: #22c55e;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER / BANNER ===== */
+        .header {
+            position: relative;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(10,10,10,0.85) 0%, rgba(26,26,26,0.9) 100%),
+                        url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=400&fit=crop') center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 3px solid var(--orange);
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--black));
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--white);
+            text-shadow: 0 0 30px var(--orange-glow), 0 4px 10px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .header h1 span {
+            color: var(--orange);
+        }
+
+        .header-subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, var(--black) 0%, var(--black-light) 100%);
+            border-bottom: 1px solid var(--gray-dark);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-small {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 15px var(--orange-glow);
+        }
+
+        .store-info h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .store-info p {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .status-badge.open {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-badge.closed {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        .status-badge.open .status-dot { background: var(--green); }
+        .status-badge.closed .status-dot { background: var(--red); animation: none; }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .info-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-dark);
+            border: 1px solid var(--gray);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .info-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            transform: scale(1.1);
+        }
+
+        /* ===== NAV TABS ===== */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 15px 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: var(--black);
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .nav-tabs::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 10px 24px;
+            border-radius: 25px;
+            border: 1px solid var(--gray-dark);
+            background: transparent;
+            color: var(--gray);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .nav-tab:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+            border-color: var(--orange);
+            color: var(--white);
+            box-shadow: 0 4px 15px var(--orange-glow);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--white);
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--orange), transparent);
+            margin-left: 10px;
+        }
+
+        .section-title i {
+            color: var(--orange);
+        }
+
+        /* ===== MENU ITEM ===== */
+        .menu-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: var(--black-card);
+            border-radius: 16px;
+            border: 1px solid var(--gray-dark);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--orange);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-item:hover {
+            border-color: var(--orange);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(255, 107, 0, 0.1);
+        }
+
+        .menu-item:hover::before {
+            opacity: 1;
+        }
+
+        .menu-item-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid var(--gray-dark);
+        }
+
+        .menu-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .menu-item-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .menu-item-desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .menu-item-sizes {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .size-tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(255, 107, 0, 0.1);
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            color: var(--orange-light);
+            font-weight: 500;
+        }
+
+        .menu-item-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--orange);
+        }
+
+        .menu-item-price span {
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .menu-item-add {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+            border: none;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            align-self: center;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px var(--orange-glow);
+        }
+
+        .menu-item-add:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 20px var(--orange-glow);
+        }
+
+        /* ===== INFO MODAL ===== */
+        .info-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .info-modal-overlay.active {
+            display: flex;
+        }
+
+        .info-modal {
+            background: var(--black-light);
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--gray-dark);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            animation: slideUp 0.3s ease;
+        }
+
+        .info-modal-header {
+            padding: 20px 20px 15px;
+            border-bottom: 1px solid var(--gray-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-modal-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .info-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gray-dark);
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .info-close:hover {
+            background: var(--orange);
+        }
+
+        .info-modal-body {
+            padding: 20px;
+        }
+
+        .info-store-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section h3 i {
+            color: var(--orange);
+            width: 18px;
+        }
+
+        .info-address {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .info-address i {
+            color: var(--orange);
+            margin-top: 3px;
+        }
+
+        .service-card {
+            background: var(--black-card);
+            border: 1px solid var(--gray-dark);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .service-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .service-card-header h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-card-header h4 i {
+            color: var(--orange);
+        }
+
+        .service-check {
+            color: var(--green);
+            font-size: 1.1rem;
+        }
+
+        .service-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+
+        .service-detail i {
+            color: var(--orange);
+            font-size: 0.75rem;
+            width: 16px;
+        }
+
+        .service-detail strong {
+            color: var(--white);
+        }
+
+        .service-area {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--gray-dark);
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .service-area strong {
+            color: var(--white);
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            transition: background 0.2s;
+        }
+
+        .hours-row:hover {
+            background: var(--black-card);
+        }
+
+        .hours-row.today {
+            background: rgba(255, 107, 0, 0.1);
+            border: 1px solid rgba(255, 107, 0, 0.2);
+        }
+
+        .hours-day {
+            color: var(--gray);
+        }
+
+        .hours-day.today-text {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .hours-time {
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hours-time svg, .hours-time i {
+            color: var(--orange);
+            font-size: 0.75rem;
+        }
+
+        .info-footer {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid var(--gray-dark);
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        /* ===== ORDER MODAL ===== */
+        .order-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-end;
+            backdrop-filter: blur(5px);
+        }
+
+        .order-modal-overlay.active {
+            display: flex;
+        }
+
+        .order-modal {
+            background: var(--black-light);
+            border-radius: 25px 25px 0 0;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-top: 3px solid var(--orange);
+            box-shadow: 0 -10px 40px rgba(255, 107, 0, 0.2);
+            animation: slideUpOrder 0.3s ease;
+        }
+
+        @keyframes slideUpOrder {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .order-modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-dark);
+            display: flex;
+            gap: 15px;
+            position: relative;
+        }
+
+        .order-modal-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--orange);
+        }
+
+        .order-modal-title {
+            flex: 1;
+        }
+
+        .order-modal-title h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .order-modal-title p {
+            font-size: 0.8rem;
+            color: var(--gray);
+            line-height: 1.4;
+        }
+
+        .order-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gray-dark);
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .order-close:hover { background: var(--orange); }
+
+        .order-modal-body {
+            padding: 20px;
+        }
+
+        .option-group {
+            margin-bottom: 25px;
+        }
+
+        .option-group h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .option-group h3 i {
+            color: var(--orange);
+        }
+
+        /* Size Selector */
+        .size-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .size-btn {
+            padding: 14px 10px;
+            border: 2px solid var(--gray-dark);
+            border-radius: 14px;
+            background: var(--black-card);
+            color: var(--gray);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .size-btn .size-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .size-btn .size-slices {
+            font-size: 0.7rem;
+            color: var(--gray);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .size-btn .size-price {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--orange);
+            display: block;
+        }
+
+        .size-btn:hover {
+            border-color: var(--orange);
+            color: var(--white);
+        }
+
+        .size-btn.selected {
+            border-color: var(--orange);
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--white);
+        }
+
+        .size-btn.selected .size-slices {
+            color: var(--orange-light);
+        }
+
+        /* Delivery Type */
+        .delivery-type {
+            display: flex;
+            gap: 10px;
+        }
+
+        .delivery-btn {
+            flex: 1;
+            padding: 15px 10px;
+            border: 2px solid var(--gray-dark);
+            border-radius: 14px;
+            background: var(--black-card);
+            color: var(--gray);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .delivery-btn i {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .delivery-btn span {
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .delivery-btn:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        .delivery-btn.selected {
+            border-color: var(--orange);
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--orange);
+        }
+
+        .delivery-info-msg {
+            background: rgba(255, 107, 0, 0.08);
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--orange-light);
+            margin-top: 10px;
+            display: none;
+        }
+
+        .delivery-info-msg.show { display: block; }
+
+        /* Crust Options */
+        .crust-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            border: 2px solid var(--gray-dark);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--black-card);
+        }
+
+        .crust-option:hover {
+            border-color: var(--orange);
+        }
+
+        .crust-option.selected {
+            border-color: var(--orange);
+            background: rgba(255, 107, 0, 0.08);
+        }
+
+        .crust-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--orange);
+        }
+
+        .crust-label {
+            flex: 1;
+            margin-left: 12px;
+            font-weight: 500;
+            color: var(--white);
+            font-size: 0.9rem;
+        }
+
+        .crust-price {
+            color: var(--orange);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Total Section */
+        .total-section {
+            background: var(--black-card);
+            border: 1px solid var(--gray-dark);
+            padding: 18px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .total-row.size-row {
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .total-row.delivery-fee {
+            color: var(--orange-light);
+            font-weight: 600;
+        }
+
+        .total-row.final {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--orange);
+            border-top: 1px solid var(--gray-dark);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+            color: var(--white);
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--orange-glow);
+        }
+
+        /* ===== WHATSAPP BUTTON ===== */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            text-decoration: none;
+            animation: pulse-wa 2s infinite;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes pulse-wa {
+            0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+            50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--gray-dark);
+            margin-top: 30px;
+        }
+
+        .footer i { color: var(--orange); }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .header { height: 250px; }
+            .header h1 { font-size: 2.2rem; }
+            .menu-item-img { width: 75px; height: 75px; }
+            .info-modal { max-width: 100%; }
+            .size-selector { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Header Banner -->
+    <header class="header">
+        <div class="header-content">
+            <h1><i class="fas fa-pizza-slice"></i> PIZZARIA <span>ALTERNATIVA</span></h1>
+            <p class="header-subtitle">O sabor que você procura</p>
+        </div>
+    </header>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="logo-small">🍕</div>
+            <div class="store-info">
+                <h3>Pizzaria Alternativa</h3>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--orange);font-size:0.7rem;"></i> Rua das Pizzas, 123 - Centro</p>
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <div class="status-badge" id="statusBadge">
+                <span class="status-dot"></span>
+                <span id="statusText">Verificando...</span>
+            </div>
+            <button class="info-btn" onclick="openInfoModal()" title="Informações">
+                <i class="fas fa-info"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Nav Tabs -->
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="filterCategory('all', this)">Todos</button>
+        <button class="nav-tab" onclick="filterCategory('salgadas', this)">Pizzas Salgadas</button>
+        <button class="nav-tab" onclick="filterCategory('doces', this)">Pizzas Doces</button>
+        <button class="nav-tab" onclick="filterCategory('bebidas', this)">Bebidas</button>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <div id="menuContainer"></div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="info-modal-overlay" id="infoModal" onclick="closeInfoModalOutside(event)">
+        <div class="info-modal">
+            <div class="info-modal-header">
+                <h2>Informação</h2>
+                <button class="info-close" onclick="closeInfoModal()">&times;</button>
+            </div>
+            <div class="info-modal-body">
+                <div class="info-section">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:15px;">
+                        <div style="width:50px;height:50px;border-radius:12px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🍕</div>
+                        <div>
+                            <div class="info-store-name">Pizzaria Alternativa</div>
+                            <div style="display:flex;gap:12px;margin-top:5px;">
+                                <a href="#" style="color:var(--gray);font-size:1rem;"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#" style="color:var(--gray);font-size:1rem;"><i class="fab fa-instagram"></i></a>
+                                <a href="#" style="color:var(--gray);font-size:1rem;"><i class="fas fa-share-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Endereço</h3>
+                    <div class="info-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Rua das Pizzas, 123 - Centro, São Paulo - SP, 01000-000, Brasil</span>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3><i class="fas fa-concierge-bell"></i> Tipos de serviço</h3>
+
+                    <div class="service-card">
+                        <div class="service-card-header">
+                            <h4><i class="fas fa-motorcycle"></i> Delivery</h4>
+                            <i class="fas fa-check-circle service-check"></i>
+                        </div>
+                        <div class="service-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>Tempo de entrega em casa <strong>30 - 50min.</strong></span>
+                        </div>
+                        <div class="service-detail">
+                            <i class="fas fa-shopping-basket"></i>
+                            <span>Pedido mínimo para delivery <strong>R$ 25,00</strong></span>
+                        </div>
+                        <div class="service-area">
+                            <strong>Abrangência da entrega:</strong><br>
+                            • Centro, Jardins, Vila Mariana, Pinheiros, Consolação
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-card-header">
+                            <h4><i class="fas fa-store"></i> Retirada</h4>
+                            <i class="fas fa-check-circle service-check"></i>
+                        </div>
+                        <div class="service-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>Pronto em <strong>20 - 30min.</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3><i class="fas fa-clock"></i> Horário de funcionamento</h3>
+                    <div id="hoursContainer"></div>
+                </div>
+            </div>
+            <div class="info-footer">
+                Pizzaria Alternativa ® Todos os direitos reservados
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="order-modal-overlay" id="orderModal" onclick="closeOrderModalOutside(event)">
+        <div class="order-modal">
+            <div class="order-modal-header">
+                <img src="" alt="" class="order-modal-img" id="orderModalImg">
+                <div class="order-modal-title">
+                    <h2 id="orderModalName">Pizza</h2>
+                    <p id="orderModalDesc">Descrição</p>
+                </div>
+                <button class="order-close" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div class="order-modal-body">
+                <!-- Tamanho -->
+                <div class="option-group" id="sizeGroup">
+                    <h3><i class="fas fa-expand"></i> Escolha o Tamanho</h3>
+                    <div class="size-selector" id="sizeOptions"></div>
+                </div>
+
+                <!-- Tipo de Entrega -->
+                <div class="option-group">
+                    <h3><i class="fas fa-motorcycle"></i> Tipo de Entrega</h3>
+                    <div class="delivery-type">
+                        <button class="delivery-btn selected" onclick="selectDelivery('local')" id="btnLocal">
+                            <i class="fas fa-utensils"></i>
+                            <span>Comer no Local</span>
+                        </button>
+                        <button class="delivery-btn" onclick="selectDelivery('delivery')" id="btnDelivery">
+                            <i class="fas fa-motorcycle"></i>
+                            <span>Delivery</span>
+                        </button>
+                    </div>
+                    <div class="delivery-info-msg" id="deliveryInfoMsg">
+                        <i class="fas fa-info-circle"></i> Taxa de entrega: +R$ 5,00
+                    </div>
+                </div>
+
+                <!-- Bordas -->
+                <div class="option-group" id="crustGroup">
+                    <h3><i class="fas fa-circle-notch"></i> Escolha a Borda</h3>
+                    <div id="crustOptions"></div>
+                </div>
+
+                <!-- Total -->
+                <div class="total-section">
+                    <div class="total-row size-row" id="sizeRow" style="display:none;">
+                        <span id="sizeNameLabel">Tamanho</span>
+                        <span id="sizePriceLabel">R$ 0,00</span>
+                    </div>
+                    <div class="total-row" id="crustRow" style="display:none;">
+                        <span id="crustName">Borda</span>
+                        <span id="crustPrice">R$ 0,00</span>
+                    </div>
+                    <div class="total-row delivery-fee" id="deliveryRow" style="display:none;">
+                        <span>Taxa de Entrega</span>
+                        <span>+R$ 5,00</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total</span>
+                        <span id="totalPrice">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <button class="confirm-btn" onclick="confirmOrder()">
+                    <i class="fab fa-whatsapp"></i> Enviar Pedido pelo WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido%20na%20Pizzaria%20Alternativa." 
+       class="whatsapp-btn" target="_blank" title="Fale conosco pelo WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><i class="fas fa-heart"></i> Pizzaria Alternativa - Feito com amor para você!</p>
+        <p style="margin-top:5px;">Funcionamento: Todos os dias - 18h às 23h</p>
+    </footer>
+
+    <script>
+        // ===== TAMANHOS DAS PIZZAS =====
+        const pizzaSizes = [
+            { key: 'P', name: 'Pequena', slices: 4, multiplier: 0.75 },
+            { key: 'M', name: 'Média', slices: 6, multiplier: 1.0 },
+            { key: 'G', name: 'Grande', slices: 8, multiplier: 1.3 },
+            { key: 'F', name: 'Família', slices: 12, multiplier: 1.6 }
+        ];
+
+        // ===== DADOS DO CARDÁPIO =====
+        const menuData = {
+            salgadas: [
+                { id: 1, name: "Calabresa", desc: "Mussarela, calabresa, cebola e orégano", price: 45.00, img: "https://kimi-web-img.moonshot.cn/img/www.recetas-argentinas.com/8b22801e6689d575e43a5b7f2347d8aa5ebc9591.webp" },
+                { id: 2, name: "Mussarela", desc: "Mussarela, tomate e orégano", price: 42.00, img: "https://kimi-web-img.moonshot.cn/img/media-cdn.tripadvisor.com/b3e1a4930978ce8ffcf23ad27a01b1e688484536.jpg" },
+                { id: 3, name: "Portuguesa", desc: "Mussarela, presunto, ovos, cebola e azeitona", price: 48.00, img: "https://kimi-web-img.moonshot.cn/img/minhasreceitinhas.com.br/80db18d00eaa70183242a826ab7e9c5a6207b039.png" },
+                { id: 4, name: "Frango com Catupiry", desc: "Mussarela, frango desfiado e catupiry", price: 50.00, img: "https://kimi-web-img.moonshot.cn/img/www.receitasnestle.com.br/31b504e84f7cf9ab737edf59182cb5f334c476e6.jpg" },
+                { id: 5, name: "Quatro Queijos", desc: "Mussarela, provolone, parmesão e catupiry", price: 52.00, img: "https://kimi-web-img.moonshot.cn/img/claudia.abril.com.br/b271088557d3a7ad3dbe14c6f949c9602b34625b.jpg" },
+                { id: 6, name: "Pepperoni", desc: "Mussarela, pepperoni e orégano", price: 49.00, img: "https://kimi-web-img.moonshot.cn/img/www.hunts.com/31775c792cd919aabadca2b5959a47856f6ae197.jpg" },
+                { id: 15, name: "Nordestina", desc: "Carne seca desfiada, queijo coalho, cebola roxa e coentro", price: 55.00, img: "https://kimi-web-img.moonshot.cn/img/www.deline.com.br/083721e29dfc01c79599812e12e31b465e7a2f5a.jpg" }
+            ],
+            doces: [
+                { id: 7, name: "Chocolate", desc: "Chocolate ao leite derretido", price: 38.00, img: "https://kimi-web-img.moonshot.cn/img/cdn0.tudoreceitas.com/5498746bb1da5b0d1a2ee03f30a3ae943ed194e9.jpg" },
+                { id: 8, name: "Chocolate com Morango", desc: "Chocolate e morangos frescos", price: 42.00, img: "https://kimi-web-img.moonshot.cn/img/s2.glbimg.com/1e6c4c8dfed0ffcc4c7fe19aa669804ba3bc7dce.jpg" },
+                { id: 9, name: "Banana com Canela", desc: "Banana, canela e leite condensado", price: 35.00, img: "https://kimi-web-img.moonshot.cn/img/guiadacozinha.com.br/85b3117ade27c8ec62d6b02f2088a989a72fcab0.jpg" },
+                { id: 10, name: "Romeu e Julieta", desc: "Goiabada e mussarela", price: 36.00, img: "https://kimi-web-img.moonshot.cn/img/s2-receitas.glbimg.com/95323346f0012f260f4b26be28ab33f4626f2e2c.jpg" }
+            ],
+            bebidas: [
+                { id: 11, name: "Coca-Cola 2L", desc: "Refrigerante Coca-Cola 2 litros", price: 12.00, img: "https://kimi-web-img.moonshot.cn/img/fortatacadista.vteximg.com.br/7660fa7dc77acdb48dde116328181230548af361.jpg", noCrust: true, noSize: true },
+                { id: 12, name: "Guaraná Antarctica 2L", desc: "Refrigerante Guaraná Antarctica 2 litros", price: 11.00, img: "https://kimi-web-img.moonshot.cn/img/carrefourbrfood.vtexassets.com/f42440b0a4a3876fd45d2ec3493e96948f22c46f.jpg", noCrust: true, noSize: true },
+                { id: 13, name: "Suco de Laranja", desc: "Suco natural de laranja 500ml", price: 8.00, img: "https://kimi-web-img.moonshot.cn/img/www.cocolegal.com.br/db4e8a563b5c58a5c2212340e030153666ee630d.jpg", noCrust: true, noSize: true },
+                { id: 14, name: "Água Mineral", desc: "Água mineral 500ml", price: 4.00, img: "https://kimi-web-img.moonshot.cn/img/aguamineralhydrate.com.br/ae4225d1974f626895104d051e1aac8b977489b0.jpg", noCrust: true, noSize: true }
+            ]
+        };
+
+        // Opções de Borda
+        const crustOptions = [
+            { name: "Sem Borda Recheada", price: 0.00 },
+            { name: "Borda de Chocolate", price: 8.00 },
+            { name: "Borda de Catupiry", price: 7.00 },
+            { name: "Borda de Cheddar", price: 7.00 },
+            { name: "Borda de Mussarela", price: 6.00 }
+        ];
+
+        // Horários de funcionamento
+        const hoursData = [
+            { day: "Domingo", open: "18:00", close: "23:00" },
+            { day: "Segunda-feira", open: "18:00", close: "23:00" },
+            { day: "Terça-feira", open: "18:00", close: "23:00" },
+            { day: "Quarta-feira", open: "18:00", close: "23:00" },
+            { day: "Quinta-feira", open: "18:00", close: "23:00" },
+            { day: "Sexta-feira", open: "18:00", close: "23:00" },
+            { day: "Sábado", open: "18:00", close: "23:00" }
+        ];
+
+        let currentItem = null;
+        let selectedSize = pizzaSizes[1]; // Média por padrão
+        let selectedCrust = crustOptions[0];
+        let deliveryType = 'local';
+        const DELIVERY_FEE = 5.00;
+
+        // ===== VERIFICAR STATUS (ABERTO/FECHADO) =====
+        function checkStatus() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+
+            const openTime = 18 * 60; // 18:00
+            const closeTime = 23 * 60; // 23:00
+
+            const isOpen = currentTime >= openTime && currentTime < closeTime;
+
+            const badge = document.getElementById('statusBadge');
+            const text = document.getElementById('statusText');
+
+            if (isOpen) {
+                badge.className = 'status-badge open';
+                text.textContent = 'Aberto';
+            } else {
+                badge.className = 'status-badge closed';
+                text.textContent = 'Fechado';
+            }
+        }
+
+        // ===== RENDERIZAR HORÁRIOS =====
+        function renderHours() {
+            const container = document.getElementById('hoursContainer');
+            const now = new Date();
+            const todayIndex = now.getDay();
+
+            container.innerHTML = hoursData.map((h, index) => {
+                const isToday = index === todayIndex;
+                return `
+                    <div class="hours-row ${isToday ? 'today' : ''}">
+                        <span class="hours-day ${isToday ? 'today-text' : ''}">${h.day}${isToday ? ' (Hoje)' : ''}</span>
+                        <span class="hours-time">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--orange);margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            ${h.open} - ${h.close}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ===== RENDERIZAR CARDÁPIO =====
+        function renderMenu(category = 'all') {
+            const container = document.getElementById('menuContainer');
+            let html = '';
+
+            const categories = category === 'all' ? ['salgadas', 'doces', 'bebidas'] : [category];
+
+            const sectionTitles = {
+                salgadas: { title: 'Pizzas Salgadas', icon: 'fa-fire' },
+                doces: { title: 'Pizzas Doces', icon: 'fa-candy-cane' },
+                bebidas: { title: 'Bebidas', icon: 'fa-glass-water' }
+            };
+
+            categories.forEach(cat => {
+                html += `<h2 class="section-title"><i class="fas ${sectionTitles[cat].icon}"></i> ${sectionTitles[cat].title}</h2>`;
+                html += menuData[cat].map(item => {
+                    const sizesHtml = item.noSize 
+                        ? '' 
+                        : `<div class="menu-item-sizes">
+                            <span class="size-tag">P - 4 fatias</span>
+                            <span class="size-tag">M - 6 fatias</span>
+                            <span class="size-tag">G - 8 fatias</span>
+                            <span class="size-tag">Família - 12 fatias</span>
+                           </div>`;
+                    return `
+                    <div class="menu-item" onclick="openOrderModal(${item.id}, '${cat}')">
+                        <img src="${item.img}" alt="${item.name}" class="menu-item-img" onerror="this.src='https://via.placeholder.com/90x90/ff6b00/ffffff?text=${encodeURIComponent(item.name.charAt(0))}'">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">${item.name}</div>
+                            <div class="menu-item-desc">${item.desc}</div>
+                            ${sizesHtml}
+                            <div class="menu-item-price">A partir de R$ ${item.price.toFixed(2).replace('.', ',')} <span>${item.noSize ? '' : '(tamanho M)'}</span></div>
+                        </div>
+                        <button class="menu-item-add"><i class="fas fa-plus"></i></button>
+                    </div>
+                `}).join('');
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ===== FILTRAR CATEGORIA =====
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderMenu(cat);
+        }
+
+        // ===== INFO MODAL =====
+        function openInfoModal() {
+            renderHours();
+            document.getElementById('infoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeInfoModalOutside(e) {
+            if (e.target === document.getElementById('infoModal')) closeInfoModal();
+        }
+
+        // ===== ORDER MODAL =====
+        function openOrderModal(id, category) {
+            currentItem = menuData[category].find(i => i.id === id);
+            if (!currentItem) return;
+
+            document.getElementById('orderModalImg').src = currentItem.img;
+            document.getElementById('orderModalName').textContent = currentItem.name;
+            document.getElementById('orderModalDesc').textContent = currentItem.desc;
+
+            // Reset selections
+            selectedSize = pizzaSizes[1]; // Média
+            selectedCrust = crustOptions[0];
+            deliveryType = 'local';
+            selectDelivery('local');
+
+            // Render size options (hide for drinks)
+            const sizeGroup = document.getElementById('sizeGroup');
+            const sizeContainer = document.getElementById('sizeOptions');
+
+            if (currentItem.noSize) {
+                sizeGroup.style.display = 'none';
+            } else {
+                sizeGroup.style.display = 'block';
+                sizeContainer.innerHTML = pizzaSizes.map((size, index) => {
+                    const price = (currentItem.price * size.multiplier).toFixed(2);
+                    return `
+                        <button class="size-btn ${index === 1 ? 'selected' : ''}" onclick="selectSize(${index}, this)">
+                            <span class="size-name">${size.name}</span>
+                            <span class="size-slices">${size.slices} fatias</span>
+                            <span class="size-price">R$ ${price.replace('.', ',')}</span>
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            // Render crust options (hide for drinks)
+            const crustGroup = document.getElementById('crustGroup');
+            const crustContainer = document.getElementById('crustOptions');
+
+            if (currentItem.noCrust) {
+                crustGroup.style.display = 'none';
+            } else {
+                crustGroup.style.display = 'block';
+                crustContainer.innerHTML = crustOptions.map((crust, index) => `
+                    <div class="crust-option ${index === 0 ? 'selected' : ''}" onclick="selectCrust(${index}, this)">
+                        <input type="radio" name="crust" ${index === 0 ? 'checked' : ''}>
+                        <span class="crust-label">${crust.name}</span>
+                        <span class="crust-price">${crust.price > 0 ? '+R$ ' + crust.price.toFixed(2).replace('.', ',') : 'Incluso'}</span>
+                    </div>
+                `).join('');
+            }
+
+            updateTotal();
+            document.getElementById('orderModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeOrderModalOutside(e) {
+            if (e.target === document.getElementById('orderModal')) closeOrderModal();
+        }
+
+        function selectSize(index, element) {
+            selectedSize = pizzaSizes[index];
+            document.querySelectorAll('.size-btn').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            updateTotal();
+        }
+
+        function selectCrust(index, element) {
+            selectedCrust = crustOptions[index];
+            document.querySelectorAll('.crust-option').forEach(el => el.classList.remove('selected'));
+            document.querySelectorAll('.crust-option input').forEach(el => el.checked = false);
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            updateTotal();
+        }
+
+        function selectDelivery(type) {
+            deliveryType = type;
+            document.getElementById('btnLocal').classList.toggle('selected', type === 'local');
+            document.getElementById('btnDelivery').classList.toggle('selected', type === 'delivery');
+            document.getElementById('deliveryInfoMsg').classList.toggle('show', type === 'delivery');
+            updateTotal();
+        }
+
+        function getBasePrice() {
+            if (!currentItem) return 0;
+            if (currentItem.noSize) return currentItem.price;
+            return currentItem.price * selectedSize.multiplier;
+        }
+
+        function updateTotal() {
+            const basePrice = getBasePrice();
+            const crustPrice = currentItem && !currentItem.noCrust ? selectedCrust.price : 0;
+            const deliveryFee = deliveryType === 'delivery' ? DELIVERY_FEE : 0;
+            const total = basePrice + crustPrice + deliveryFee;
+
+            // Size row
+            const sizeRow = document.getElementById('sizeRow');
+            if (!currentItem.noSize) {
+                sizeRow.style.display = 'flex';
+                document.getElementById('sizeNameLabel').textContent = `${selectedSize.name} (${selectedSize.slices} fatias)`;
+                document.getElementById('sizePriceLabel').textContent = 'R$ ' + basePrice.toFixed(2).replace('.', ',');
+            } else {
+                sizeRow.style.display = 'none';
+            }
+
+            // Crust row
+            const crustRow = document.getElementById('crustRow');
+            if (crustPrice > 0 && currentItem && !currentItem.noCrust) {
+                crustRow.style.display = 'flex';
+                document.getElementById('crustName').textContent = selectedCrust.name;
+                document.getElementById('crustPrice').textContent = '+R$ ' + crustPrice.toFixed(2).replace('.', ',');
+            } else {
+                crustRow.style.display = 'none';
+            }
+
+            // Delivery row
+            document.getElementById('deliveryRow').style.display = deliveryFee > 0 ? 'flex' : 'none';
+
+            // Total
+            document.getElementById('totalPrice').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+        }
+
+        function confirmOrder() {
+            if (!currentItem) return;
+
+            const basePrice = getBasePrice();
+            const crustPrice = currentItem.noCrust ? 0 : selectedCrust.price;
+            const deliveryFee = deliveryType === 'delivery' ? DELIVERY_FEE : 0;
+            const total = basePrice + crustPrice + deliveryFee;
+
+            let message = `*Pedido - Pizzaria Alternativa*%0A%0A`;
+            message += `*Item:* ${currentItem.name}%0A`;
+
+            if (!currentItem.noSize) {
+                message += `*Tamanho:* ${selectedSize.name} (${selectedSize.slices} fatias)%0A`;
+            }
+
+            message += `*Preço:* R$ ${basePrice.toFixed(2).replace('.', ',')}%0A`;
+
+            if (!currentItem.noCrust && selectedCrust.price > 0) {
+                message += `*Borda:* ${selectedCrust.name} (+R$ ${crustPrice.toFixed(2).replace('.', ',')})%0A`;
+            }
+
+            message += `*Entrega:* ${deliveryType === 'delivery' ? 'Delivery (+R$ 5,00)' : 'Comer no Local'}%0A`;
+            message += `%0A*Total:* R$ ${total.toFixed(2).replace('.', ',')}%0A`;
+            message += `%0AAguardo confirmação do pedido! 🍕`;
+
+            window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+            closeOrderModal();
+        }
+
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInfoModal();
+                closeOrderModal();
+            }
+        });
+
+        // ===== INICIALIZAR =====
+        checkStatus();
+        renderMenu();
+
+        // Atualizar status a cada minuto
+        setInterval(checkStatus, 60000);
+    </script>
+</body>
+</html>
