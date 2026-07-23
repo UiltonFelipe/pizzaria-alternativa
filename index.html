@@ -982,7 +982,402 @@
             .info-modal { max-width: 100%; }
             .size-selector { grid-template-columns: repeat(2, 1fr); }
         }
-    </style>
+    
+        /* ===== CART STYLES ===== */
+        .cart-btn {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-dark);
+            border: 1px solid var(--gray);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .cart-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--orange);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--black);
+            transition: all 0.3s;
+        }
+
+        .cart-badge.bounce {
+            animation: cartBounce 0.4s ease;
+        }
+
+        @keyframes cartBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+
+        /* ===== CART MODAL ===== */
+        .cart-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2500;
+            justify-content: flex-end;
+            backdrop-filter: blur(5px);
+        }
+
+        .cart-modal-overlay.active {
+            display: flex;
+        }
+
+        .cart-modal {
+            background: var(--black-light);
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            overflow-y: auto;
+            border-left: 3px solid var(--orange);
+            box-shadow: -10px 0 40px rgba(255, 107, 0, 0.2);
+            animation: slideInCart 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideInCart {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .cart-modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--black-light);
+            z-index: 10;
+        }
+
+        .cart-modal-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-modal-header h2 i {
+            color: var(--orange);
+        }
+
+        .cart-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-dark);
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .cart-close:hover {
+            background: var(--orange);
+        }
+
+        .cart-modal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .cart-empty i {
+            font-size: 3rem;
+            color: var(--gray-dark);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .cart-empty p {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .cart-empty span {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            padding: 15px;
+            background: var(--black-card);
+            border-radius: 14px;
+            border: 1px solid var(--gray-dark);
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cart-item:hover {
+            border-color: var(--orange);
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid var(--gray-dark);
+        }
+
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-item-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-item-details {
+            font-size: 0.75rem;
+            color: var(--gray);
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .cart-item-details span {
+            display: block;
+        }
+
+        .cart-item-price {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--orange);
+        }
+
+        .cart-item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--black);
+            border-radius: 20px;
+            padding: 3px;
+            border: 1px solid var(--gray-dark);
+        }
+
+        .qty-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gray-dark);
+            color: var(--white);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: var(--orange);
+        }
+
+        .qty-value {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--white);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-item-remove {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .cart-item-remove:hover {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        .cart-modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--gray-dark);
+            background: var(--black-light);
+            position: sticky;
+            bottom: 0;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .cart-total-row.final {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--orange);
+            border-top: 1px solid var(--gray-dark);
+            padding-top: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cart-whatsapp-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: var(--white);
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .cart-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .cart-whatsapp-btn:disabled {
+            background: var(--gray-dark);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .cart-clear-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: var(--gray);
+            border: 1px solid var(--gray-dark);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .cart-clear-btn:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--black-card);
+            border: 1px solid var(--orange);
+            color: var(--white);
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 4000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i {
+            color: var(--orange);
+        }
+
+        @media (max-width: 600px) {
+            .cart-modal { max-width: 100%; }
+        }
+</style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -1004,6 +1399,10 @@
             </div>
         </div>
         <div class="top-bar-right">
+            <button class="cart-btn" onclick="openCartModal()" title="Carrinho">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
             <div class="status-badge" id="statusBadge">
                 <span class="status-dot"></span>
                 <span id="statusText">Verificando...</span>
@@ -1165,7 +1564,7 @@
                 </div>
 
                 <button class="confirm-btn" onclick="confirmOrder()">
-                    <i class="fab fa-whatsapp"></i> Enviar Pedido pelo WhatsApp
+                    <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
                 </button>
             </div>
         </div>
@@ -1181,6 +1580,7 @@
     <footer class="footer">
         <p><i class="fas fa-heart"></i> Pizzaria Alternativa - Feito com amor para você!</p>
         <p style="margin-top:5px;">Funcionamento: Todos os dias - 18h às 23h</p>
+        <p style="margin-top:5px;font-size:0.75rem;color:var(--gray-dark);"><i class="fas fa-shopping-cart"></i> Adicione itens ao carrinho e finalize pelo WhatsApp</p>
     </footer>
 
     <script>
@@ -1242,6 +1642,182 @@
         let selectedCrust = crustOptions[0];
         let deliveryType = 'local';
         const DELIVERY_FEE = 5.00;
+        // ===== CARRINHO =====
+        let cart = [];
+        const CART_STORAGE_KEY = 'pizzaria_cart';
+
+        // Carregar carrinho do localStorage
+        function loadCart() {
+            try {
+                const saved = localStorage.getItem(CART_STORAGE_KEY);
+                if (saved) cart = JSON.parse(saved);
+            } catch(e) { cart = []; }
+            updateCartUI();
+        }
+
+        // Salvar carrinho no localStorage
+        function saveCart() {
+            try {
+                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            } catch(e) {}
+        }
+
+        // Adicionar item ao carrinho
+        function addToCart(item) {
+            cart.push(item);
+            saveCart();
+            updateCartUI();
+            showToast('Item adicionado ao carrinho!');
+            animateCartBadge();
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartUI();
+        }
+
+        // Alterar quantidade
+        function changeQty(index, delta) {
+            const newQty = cart[index].qty + delta;
+            if (newQty < 1) {
+                removeFromCart(index);
+                return;
+            }
+            cart[index].qty = newQty;
+            cart[index].total = cart[index].unitPrice * newQty;
+            saveCart();
+            updateCartUI();
+        }
+
+        // Limpar carrinho
+        function clearCart() {
+            if (cart.length === 0) return;
+            if (!confirm('Tem certeza que deseja limpar o carrinho?')) return;
+            cart = [];
+            saveCart();
+            updateCartUI();
+        }
+
+        // Atualizar UI do carrinho
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.textContent = totalItems;
+            badge.style.display = totalItems > 0 ? 'flex' : 'none';
+
+            const emptyDiv = document.getElementById('cartEmpty');
+            const itemsContainer = document.getElementById('cartItemsContainer');
+            const footer = document.getElementById('cartFooter');
+
+            if (cart.length === 0) {
+                emptyDiv.style.display = 'block';
+                itemsContainer.innerHTML = '';
+                footer.style.display = 'none';
+                return;
+            }
+
+            emptyDiv.style.display = 'none';
+            footer.style.display = 'block';
+
+            itemsContainer.innerHTML = cart.map((item, index) => {
+                const details = [];
+                if (item.size && item.size.name) details.push(item.size.name);
+                if (item.crust && item.crust.name && item.crust.price > 0) details.push(item.crust.name);
+                if (item.deliveryType === 'delivery') details.push('Delivery');
+                else details.push('Comer no Local');
+
+                return `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://via.placeholder.com/60x60/ff6b00/ffffff?text=${encodeURIComponent(item.name.charAt(0))}'">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-details">
+                                ${details.map(d => `<span>${d}</span>`).join('')}
+                            </div>
+                            <div class="cart-item-price">R$ ${item.total.toFixed(2).replace('.', ',')}</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="changeQty(${index}, -1)"><i class="fas fa-minus"></i></button>
+                                <span class="qty-value">${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${index}, 1)"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <button class="cart-item-remove" onclick="removeFromCart(${index})" title="Remover">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + item.total, 0);
+            document.getElementById('cartSubtotal').textContent = 'R$ ' + subtotal.toFixed(2).replace('.', ',');
+            document.getElementById('cartTotal').textContent = 'R$ ' + subtotal.toFixed(2).replace('.', ',');
+        }
+
+        // Animar badge do carrinho
+        function animateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            badge.classList.remove('bounce');
+            void badge.offsetWidth; // trigger reflow
+            badge.classList.add('bounce');
+            setTimeout(() => badge.classList.remove('bounce'), 400);
+        }
+
+        // Mostrar toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Abrir modal do carrinho
+        function openCartModal() {
+            updateCartUI();
+            document.getElementById('cartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fechar modal do carrinho
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeCartModalOutside(e) {
+            if (e.target === document.getElementById('cartModal')) closeCartModal();
+        }
+
+        // Enviar pedido do carrinho via WhatsApp
+        function sendCartWhatsApp() {
+            if (cart.length === 0) return;
+
+            let message = `*Pedido - Pizzaria Alternativa*%0A%0A`;
+            message += `*Itens do Pedido:*%0A%0A`;
+
+            cart.forEach((item, i) => {
+                message += `*${i + 1}. ${item.name}* (x${item.qty})%0A`;
+                if (item.size && item.size.name) {
+                    message += `   Tamanho: ${item.size.name}%0A`;
+                }
+                if (item.crust && item.crust.price > 0) {
+                    message += `   Borda: ${item.crust.name}%0A`;
+                }
+                message += `   Entrega: ${item.deliveryType === 'delivery' ? 'Delivery' : 'Comer no Local'}%0A`;
+                message += `   Subtotal: R$ ${item.total.toFixed(2).replace('.', ',')}%0A%0A`;
+            });
+
+            const total = cart.reduce((sum, item) => sum + item.total, 0);
+            message += `*Total do Pedido: R$ ${total.toFixed(2).replace('.', ',')}*%0A`;
+            message += `%0AAguardo confirmação do pedido! 🍕`;
+
+            window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+        }
+
 
         // ===== VERIFICAR STATUS (ABERTO/FECHADO) =====
         function checkStatus() {
@@ -1486,26 +2062,21 @@
             const basePrice = getBasePrice();
             const crustPrice = currentItem.noCrust ? 0 : selectedCrust.price;
             const deliveryFee = deliveryType === 'delivery' ? DELIVERY_FEE : 0;
-            const total = basePrice + crustPrice + deliveryFee;
+            const unitTotal = basePrice + crustPrice + deliveryFee;
 
-            let message = `*Pedido - Pizzaria Alternativa*%0A%0A`;
-            message += `*Item:* ${currentItem.name}%0A`;
+            const cartItem = {
+                id: currentItem.id,
+                name: currentItem.name,
+                img: currentItem.img,
+                size: currentItem.noSize ? null : { ...selectedSize },
+                crust: currentItem.noCrust ? null : { ...selectedCrust },
+                deliveryType: deliveryType,
+                unitPrice: unitTotal,
+                qty: 1,
+                total: unitTotal
+            };
 
-            if (!currentItem.noSize) {
-                message += `*Tamanho:* ${selectedSize.name} (${selectedSize.slices} fatias)%0A`;
-            }
-
-            message += `*Preço:* R$ ${basePrice.toFixed(2).replace('.', ',')}%0A`;
-
-            if (!currentItem.noCrust && selectedCrust.price > 0) {
-                message += `*Borda:* ${selectedCrust.name} (+R$ ${crustPrice.toFixed(2).replace('.', ',')})%0A`;
-            }
-
-            message += `*Entrega:* ${deliveryType === 'delivery' ? 'Delivery (+R$ 5,00)' : 'Comer no Local'}%0A`;
-            message += `%0A*Total:* R$ ${total.toFixed(2).replace('.', ',')}%0A`;
-            message += `%0AAguardo confirmação do pedido! 🍕`;
-
-            window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+            addToCart(cartItem);
             closeOrderModal();
         }
 
@@ -1514,15 +2085,57 @@
             if (e.key === 'Escape') {
                 closeInfoModal();
                 closeOrderModal();
+                closeCartModal();
             }
         });
 
         // ===== INICIALIZAR =====
         checkStatus();
         renderMenu();
+        loadCart();
 
         // Atualizar status a cada minuto
         setInterval(checkStatus, 60000);
     </script>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal-overlay" id="cartModal" onclick="closeCartModalOutside(event)">
+        <div class="cart-modal">
+            <div class="cart-modal-header">
+                <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
+                <button class="cart-close" onclick="closeCartModal()">&times;</button>
+            </div>
+            <div class="cart-modal-body" id="cartBody">
+                <div class="cart-empty" id="cartEmpty">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>Seu carrinho está vazio</p>
+                    <span>Adicione itens do cardápio para começar</span>
+                </div>
+                <div id="cartItemsContainer"></div>
+            </div>
+            <div class="cart-modal-footer" id="cartFooter" style="display:none;">
+                <div class="cart-total-row">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">R$ 0,00</span>
+                </div>
+                <div class="cart-total-row final">
+                    <span>Total</span>
+                    <span id="cartTotal">R$ 0,00</span>
+                </div>
+                <button class="cart-clear-btn" onclick="clearCart()">
+                    <i class="fas fa-trash-alt"></i> Limpar Carrinho
+                </button>
+                <button class="cart-whatsapp-btn" onclick="sendCartWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Enviar Pedido pelo WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Item adicionado ao carrinho!</span>
+    </div>
 </body>
 </html>
